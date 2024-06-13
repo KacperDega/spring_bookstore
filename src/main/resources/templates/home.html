@@ -25,20 +25,43 @@
         <a th:href="@{/main}" class="mx-1 btn btn-secondary btn-sm mt-auto">Wszystkie ksiazki</a>
     </div>
 
-    <h1>Twoje zamówienia</h1>
-    <div th:if="${orders.isEmpty()}">
-        <p>Brak zamówień.</p>
-    </div>
-    <div class="order-list" th:if="${!orders.isEmpty()}">
-        <div th:each="order: ${orders}" class="order-item">
-            <div th:text="${'Id zamówienia: ' + order.id}"></div>
-            <!-- <div th:text="${'Użytkownik: ' + order.user.username}"></div> -->
-            <div th:text="${'Data: ' + #temporals.format(order.date.toInstant(), 'yyyy-MM-dd hh:mm:ss')}"></div>
-            <p>Zamówione produkty:</p>
-            <div th:each="item: ${order.items}" class="order-item-product">
-                <div th:text="${item.book.title + ', ilość: ' + item.quantity }"></div>
+    <div class="container mt-5">
+        <h1 class="mb-4">Twoje zamówienia</h1>
+        <div th:if="${orders.isEmpty()}">
+            <p>Brak zamówień.</p>
+        </div>
+        <div class="order-list" th:if="${!orders.isEmpty()}">
+            <div th:each="order : ${orders}" class="order-item mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${'Id zamówienia: ' + order.id}"></h5>
+                        <!-- <p class="card-text" th:text="${'Użytkownik: ' + order.user.username}"></p> -->
+                        <p class="card-text" th:text="${'Data: ' + #temporals.format(order.date.toInstant(), 'yyyy-MM-dd hh:mm:ss')}"></p>
+                        <h6 class="card-subtitle mb-2 text-muted">Zamówione produkty:</h6>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Tytuł</th>
+                                <th>Autor</th>
+                                <th>Cena</th>
+                                <th>Ilość</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="item : ${order.items}">
+                                <td th:text="${item.book.title}"></td>
+                                <td th:text="${item.book.author}"></td>
+                                <td th:text="${item.book.price}"></td>
+                                <td th:text="${item.quantity}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p class="card-text mt-3">
+                            <strong th:text="${'Status: ' + order.status}"></strong>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <div th:text="${'Status: ' + order.status}"></div>
         </div>
     </div>
 
