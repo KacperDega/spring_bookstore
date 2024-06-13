@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:fragment="header">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Księgarnia</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .text-white { color:white;}
+        @font-face {
+            font-family: 'Teaspoon';
+            src: url('/static/fonts/teaspoon.woff2') format('woff2'),
+                 url('/static/fonts/teaspoon.woff') format('woff');
+                 url('/static/fonts/teaspoon.otf') format('opentype'),
+                 url('/static/fonts/teaspoon.ttf') format('truetype');
+        }
+    </style>
+</head>
+
+<footer th:fragment="footer">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</footer>
+
+<nav class="navbar navbar-expand-lg" style="background-color: #B76E79;" th:fragment="navbar">
+    <a class="navbar-brand mx-5 text-white" style="font-family: Impact" href="/main">KSIĘGARNIA</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link mx-2 text-white" href="/">Strona główna</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mx-2 text-white" href="/cart">Koszyk</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                <a class="nav-link mx-2 text-white" href="/admin/adminpanel">Panel Admina</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+</html>

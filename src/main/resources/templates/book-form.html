@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ADD BOOK</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {background-color: #f4f4f4;}
+        .btn-primary {  background-color:#B76E79;
+                        border-color:#B76E79}
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+                background-color:#6D4248 !important;
+                border-color:#6D4248 !important;
+        }
+    </style>
+</head>
+<div th:replace="~{layout :: navbar}"></div>
+<body>
+    <div class="container mt-5">
+        <form method="post" class="p-4 border rounded bg-light">
+            <div class="mb-3">
+                <label for="title" class="form-label">Tytuł</label>
+                <input type="text" class="form-control" placeholder="Tytuł" th:field="*{book.title}" id="title">
+            </div>
+            <div class="mb-3">
+                <label for="author" class="form-label">Autor</label>
+                <input type="text" class="form-control" placeholder="Autor" th:field="*{book.author}" id="author">
+            </div>
+            <div class="mb-3">
+                <label for="price" class="form-label">Cena</label>
+                <input type="text" class="form-control" placeholder="Cena" th:field="*{book.price}" id="price">
+            </div>
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Ilość</label>
+                <input type="text" class="form-control" placeholder="Ilość" th:field="*{book.quantity}" id="quantity">
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">URL Obrazu</label>
+                <input type="text" class="form-control" placeholder="URL Obrazu" th:field="*{book.image}" id="image">
+            </div>
+            <button type="submit" class="btn btn-primary">Dodaj</button>
+        </form>
+    </div>
+</body>
+<div th:replace="~{layout :: footer}"></div>
+</html>

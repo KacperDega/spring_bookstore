@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Koszyk</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {background-color: #f4f4f4;}
+        .btn-primary {  background-color:#B76E79;
+                        border-color:#B76E79}
+        .btn-primary:hover, .btn-primary:focus {
+                background-color:#6D4248;
+                border-color:#6D4248; }
+        }
+    </style>
+</head>
+<div th:replace="~{layout :: navbar}"></div>
+<body>
+<div class="container mt-5">
+    <h1>Koszyk</h1>
+    <div th:if="${cart.items.isEmpty()}">
+        <h5 class="text-center">Koszyk pusty.</h5>
+    </div>
+    <div th:unless="${cart.items.isEmpty()}">
+        <div class="table-responsive cart-table">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Okładka</th>
+                    <th>Tytuł</th>
+                    <th>Autor</th>
+                    <th>Cena</th>
+                    <th>Ilość</th>
+                    <th>Usuń</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${cart.items}">
+                    <td><img th:src="${item.book.image}" height="50"></td>
+                    <td th:text="${item.book.title}"></td>
+                    <td th:text="${item.book.author}"></td>
+                    <td th:text="${item.book.price}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td>
+                        <form th:action="@{/cart/remove/{bookId}(bookId=${item.book.id})}" method="get">
+                            <button type="submit" class="btn btn-danger remove-btn">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <form th:action="@{/order/submit}" method="post" class="text-center">
+            <button type="submit" class="btn btn-primary">Złóż zamówienie</button>
+        </form>
+    </div>
+</div>
+</body>
+<div th:replace="~{layout :: footer}"></div>
+</html>

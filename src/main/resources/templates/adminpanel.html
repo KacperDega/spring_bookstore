@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Strona główna</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {background-color: #f4f4f4;}
+        .btn-primary {  background-color:#B76E79;
+                        border-color:#B76E79}
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+                background-color:#6D4248 !important;
+                border-color:#6D4248 !important;
+        }
+    </style>
+</head>
+<div th:replace="~{layout :: navbar}"></div>
+<body>
+<h1 class="text-center">Admin panel!</h1>
+<div class="d-flex justify-content-center align-items-center mb-4">
+    <form th:action="@{/logout}" method="post" class="mx-1">
+        <button type="submit" class="btn btn-secondary btn-sm mt-auto">Wyloguj się</button>
+    </form>
+    <a th:href="@{/main}" class="mx-1 btn btn-secondary btn-sm mt-auto">Wszystkie ksiazki</a>
+    <a th:href="@{/book/add}" class=" mx-1 btn btn-secondary btn-sm mt-auto">Dodaj książkę</a>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h3>Lista książek</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div th:each="book : ${books}" class="col-lg-2 col-md-3 col-sm-4 col-6 mb-3">
+            <div class="card h-100">
+                <img th:src="${book.image}" class="card-img-top" style="height: 150px; object-fit: fill;" alt="Okładka książki">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title" th:text="${book.title}">Tytuł książki</h5>
+                    <p class="card-text" th:text="${book.author}">Autor książki</p>
+                    <p class="card-text" th:text="${book.price} + ' PLN'">Cena książki</p>
+                    <form th:action="@{/book/delete}" method="post" class="text-center mt-auto ">
+                        <input type="hidden" name="id" th:value="${book.id}"/>
+                        <button type="submit" class="btn btn-danger btn-sm mt-auto">Usuń książkę</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h1>Zamówienia</h1>
+<div th:if="${orders.isEmpty()}">
+    <p>Brak zamówień.</p>
+</div>
+<div class="order-list">
+    <div th:each="order: ${orders}" class="order-item">
+        <div th:text="${'Id: ' + order.id}"></div>
+        <div th:text="${'Użytkownik: ' + order.user.username}"></div>
+        <div th:text="${'Data: ' + order.date}"></div>
+        <p>Zamówione produkty:</p>
+        <div th:each="item: ${order.items}" class="order-item-product">
+            <div th:text="${item.book.title + ', ilość: ' + item.quantity }"></div>
+        </div>
+        <div th:text="${'Status: ' + order.status}"></div>
+        <form th:action="@{/order/{orderId}/changeStatus(orderId=${order.id})}" method="post">
+            <select name="orderStatus">
+                <option th:each="status : ${T(com.example.springprojekt.model.OrderStatus).values()}"
+                        th:value="${status}"
+                        th:text="${status}"
+                        th:selected="${status == order.status}"></option>
+            </select>
+            <input type="submit" value="Aktualizuj status">
+        </form>
+    </div>
+</div>
+</body>
+<div th:replace="~{layout :: footer}"></div>
+</html>
