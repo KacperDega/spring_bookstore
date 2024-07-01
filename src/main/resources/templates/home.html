@@ -13,6 +13,9 @@
                 background-color:#6D4248 !important;
                 border-color:#6D4248 !important;
         }
+        .btn-warning {
+            color:white;
+        }
     </style>
 </head>
 <div th:replace="~{layout :: navbar}"></div>
@@ -20,7 +23,7 @@
     <h1 class="text-center">Witaj na stronie głównej!</h1>
     <div class="d-flex justify-content-center align-items-center mb-4">
         <form th:action="@{/logout}" method="post" class="mx-1">
-            <button type="submit" class="btn btn-secondary btn-sm mt-auto">Wyloguj się</button>
+            <button type="submit" class="btn btn-warning btn-sm mt-auto">Wyloguj się</button>
         </form>
         <a th:href="@{/main}" class="mx-1 btn btn-secondary btn-sm mt-auto">Wszystkie ksiazki</a>
     </div>

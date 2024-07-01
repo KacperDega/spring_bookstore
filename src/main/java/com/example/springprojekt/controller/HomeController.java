@@ -23,13 +23,13 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/home", "/"})
+    @GetMapping({"/home"})
     public String home(Model model) {
         model.addAttribute("orders", this.orderService.getByUser(this.userService.getCurrentUser()));
         return "home";
     }
 
-    @RequestMapping(path = {"/main"}, method = RequestMethod.GET)
+    @RequestMapping(path = {"/main", "/"}, method = RequestMethod.GET)
     public String main(Model model) {
         model.addAttribute("books", this.bookService.getAll());
         return "main";

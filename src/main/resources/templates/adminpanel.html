@@ -8,11 +8,15 @@
     <style>
         body {background-color: #f4f4f4;}
         .btn-primary {  background-color:#B76E79;
-                        border-color:#B76E79}
+                        border-color:#B76E79
+        }
         .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
                 background-color:#6D4248 !important;
                 border-color:#6D4248 !important;
         }
+        .btn-warning {
+                color: white
+        };
     </style>
 </head>
 <div th:replace="~{layout :: navbar}"></div>
@@ -40,7 +44,11 @@
                     <h5 class="card-title" th:text="${book.title}">Tytuł książki</h5>
                     <p class="card-text" th:text="${book.author}">Autor książki</p>
                     <p class="card-text" th:text="${book.price} + ' PLN'">Cena książki</p>
-                    <form th:action="@{/book/delete}" method="post" class="text-center mt-auto ">
+                    <form th:action="@{/book/update/{id}(id=${book.id})}" method="get" class="text-center mt-auto mb-3">
+                        <input type="hidden" name="id" th:value="${book.id}"/>
+                        <button type="submit" class="btn btn-warning btn-sm">Aktualizuj książkę</button>
+                    </form>
+                    <form th:action="@{/book/delete}" method="post" class="text-center ">
                         <input type="hidden" name="id" th:value="${book.id}"/>
                         <button type="submit" class="btn btn-danger btn-sm mt-auto">Usuń książkę</button>
                     </form>
@@ -50,30 +58,52 @@
     </div>
 </div>
 
-<h1>Zamówienia</h1>
+<h1 class="mx-3">Zamówienia</h1>
 <div th:if="${orders.isEmpty()}">
-    <p>Brak zamówień.</p>
+    <p class="mx-3">Brak zamówień.</p>
 </div>
-<div class="order-list">
-    <div th:each="order: ${orders}" class="order-item">
-        <div th:text="${'Id: ' + order.id}"></div>
-        <div th:text="${'Użytkownik: ' + order.user.username}"></div>
-        <div th:text="${'Data: ' + order.date}"></div>
-        <p>Zamówione produkty:</p>
-        <div th:each="item: ${order.items}" class="order-item-product">
-            <div th:text="${item.book.title + ', ilość: ' + item.quantity }"></div>
+<div class="order-list" th:if="${!orders.isEmpty()}">
+    <div th:each="order : ${orders}" class="order-item mb-4">
+        <div class="card mx-5">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${'Id zamówienia: ' + order.id}"></h5>
+                <!-- <p class="card-text" th:text="${'Użytkownik: ' + order.user.username}"></p> -->
+                <p class="card-text" th:text="${'Data: ' + #temporals.format(order.date.toInstant(), 'yyyy-MM-dd hh:mm:ss')}"></p>
+                <h6 class="card-subtitle mb-2 text-muted">Zamówione produkty:</h6>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tytuł</th>
+                        <th>Autor</th>
+                        <th>Cena</th>
+                        <th>Ilość</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${order.items}">
+                        <td th:text="${item.book.title}"></td>
+                        <td th:text="${item.book.author}"></td>
+                        <td th:text="${item.book.price}"></td>
+                        <td th:text="${item.quantity}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p class="card-text mt-3">
+                    <strong th:text="${'Status: ' + order.status}"></strong>
+                </p>
+                <form th:action="@{/order/{orderId}/changeStatus(orderId=${order.id})}" method="post">
+                    <select name="orderStatus">
+                        <option th:each="status : ${T(com.example.springprojekt.model.OrderStatus).values()}"
+                                th:value="${status}"
+                                th:text="${status}"
+                                th:selected="${status == order.status}"></option>
+                    </select>
+                    <input type="submit" value="Aktualizuj status">
+                </form>
+            </div>
         </div>
-        <div th:text="${'Status: ' + order.status}"></div>
-        <form th:action="@{/order/{orderId}/changeStatus(orderId=${order.id})}" method="post">
-            <select name="orderStatus">
-                <option th:each="status : ${T(com.example.springprojekt.model.OrderStatus).values()}"
-                        th:value="${status}"
-                        th:text="${status}"
-                        th:selected="${status == order.status}"></option>
-            </select>
-            <input type="submit" value="Aktualizuj status">
-        </form>
     </div>
+</div>
 </div>
 </body>
 <div th:replace="~{layout :: footer}"></div>
