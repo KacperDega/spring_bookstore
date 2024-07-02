@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Strona główna</title>
+    <title>Panel administratorski</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,7 @@
 </head>
 <div th:replace="~{layout :: navbar}"></div>
 <body>
-<h1 class="text-center">Admin panel!</h1>
+<h1 class="text-center mt-4">Admin panel!</h1>
 <div class="d-flex justify-content-center align-items-center mb-4">
     <form th:action="@{/logout}" method="post" class="mx-1">
         <button type="submit" class="btn btn-secondary btn-sm mt-auto">Wyloguj się</button>
@@ -67,9 +67,9 @@
         <div class="card mx-5">
             <div class="card-body">
                 <h5 class="card-title" th:text="${'Id zamówienia: ' + order.id}"></h5>
-                <!-- <p class="card-text" th:text="${'Użytkownik: ' + order.user.username}"></p> -->
+                <p class="card-text" th:text="${'Użytkownik: ' + order.user.username + ', ID: ' + order.user.id}"></p>
                 <p class="card-text" th:text="${'Data: ' + #temporals.format(order.date.toInstant(), 'yyyy-MM-dd hh:mm:ss')}"></p>
-                <h6 class="card-subtitle mb-2 text-muted">Zamówione produkty:</h6>
+                <h6 class="card-subtitle mb-2">Zamówione produkty:</h6>
                 <table class="table table-bordered">
                     <thead>
                     <tr>

@@ -23,13 +23,7 @@
 </head>
 <div th:replace="~{layout :: navbar}"></div>
 <body>
-    <!--
-       <div>
-           <a th:href="@{/cart}" class="button-link">Zobacz koszyk.</a>
-       </div>
-    -->
-
-    <div class="d-flex justify-content-center align-items-center mb-2 mt-2" sec:authorize="hasAuthority('ADMIN')">
+    <div class="d-flex justify-content-center align-items-center mb-2 mt-3" sec:authorize="hasAuthority('ADMIN')">
         <a th:href="@{/book/add}" class="btn btn-warning">Dodaj książkę</a>
     </div>
     <div class="container mt-4 mb-5">
